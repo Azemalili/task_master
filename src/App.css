@@ -1,0 +1,38 @@
+#left-sidebar{
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    border-right: 1px solid black;
+}
+
+#right-sidebar{
+    width: 80%;
+    height: 100%;
+    position: fixed;
+    margin-left: 20%;
+}
+.main-lists{
+    display: grid;
+    grid-template-rows: repeat(3,1fr);
+}
+
+.list{
+    padding: 15px;
+    /* background-color: grey; */
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    font-size: 22px;
+    color: black !important;
+    overflow: hidden;
+}
+.list:hover{
+    background-color: grey;
+}
+
+#user-lists{
+    
+    background-color: red;
+}
