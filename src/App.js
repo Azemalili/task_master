@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Myday from './pages/Myday';
 import Priority from './pages/Priority';
 import Layout from './components/Layout';
+import UserLists from './pages/UserLists';
 
 function App() {
 
@@ -22,12 +23,16 @@ function App() {
           element: <Home />
         },
         {
-          path: '/Myday',
+          path: 'List/Myday',
           element: <Myday />
         },
         {
-          path: '/Priority',
+          path: 'List/Priority',
           element: <Priority />
+        },
+        {
+          path: 'UserList/:userlist',
+          element: <UserLists />
         }
       ]
     }

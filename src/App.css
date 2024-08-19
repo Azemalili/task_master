@@ -28,11 +28,46 @@
     color: black !important;
     overflow: hidden;
 }
+
 .list:hover{
     background-color: grey;
 }
 
+#add-list{
+    width: 90%;
+    margin-left: 5%;
+    height: 55px;
+    border: 0px;
+    padding-left: 15px;
+    font-size: 20px;
+}
+
+#add-list:hover{
+    border: 1px solid grey;
+    border-radius: 22px;
+}
+
+#add-list:focus{
+    border-radius: 22px;
+}
+
 #user-lists{
     
-    background-color: red;
+}
+
+#user-list{
+    display: flex;
+    padding: 15px;
+    /* background-color: grey; */
+    width: 90%;
+    margin: 1% 5%;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 22px;
+    color: black !important;
+    overflow: hidden;
+
+}
+#user-list:hover{
+    background-color: grey;
 }
