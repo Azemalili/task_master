@@ -1,38 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import Home from '../pages/Home'
-import { Outlet, useParams } from 'react-router'
+import { Outlet } from 'react-router'
 import { Link } from 'react-router-dom'
 import app from '../firebaseConfig'
 import { getDatabase, ref, set, push, get } from 'firebase/database'
+import UserLists from '../pages/UserLists'
 
 export default function Layout() {
 
   let [inputValue, setInputValue] = useState('')
   let [data, setData] = useState([])
+  let [myFireID, setMyFireID] = useState([])
+  
 
-
-  const savedata = async (e) => {
-      e.preventDefault();
-      const name = inputValue
-      const db = getDatabase(app);
-      const taskRef = push(ref(db, 'userLists'));
-      set(taskRef, {
-        name: name,
-        id: (data.length === 0) ? 0 : data.length 
-      })
-      .then(console.log('Data saved success fully'))
-      .then(setInputValue(''))
-      .then(
-        () => {
-          if(data.length === 0){
-            window.location.reload()
-          }
-        }
-      )
-      .catch((error) => {
-        alert('There is a problem storing data in database, please try again - ' + error.message)
-      })
-  }
   const getData = async () => {
     const db = getDatabase(app);
     const dbRef = ref(db, 'userLists');
@@ -42,10 +21,50 @@ export default function Layout() {
     }
   }
 
+
+  const savedata = (e) => {
+      e.preventDefault();
+      const name = inputValue
+      const db = getDatabase(app);
+      const taskRef = push(ref(db, 'userLists'));
+      set(taskRef, {
+        name: name
+      })
+      .then(async () => {
+        const db = getDatabase(app);
+        const dbRef = ref(db, 'userLists');
+        const snapshot = await get(dbRef)
+        if(snapshot.exists()){
+          const mydata = snapshot.val()
+          const key = Object.keys(mydata).pop()
+          const value = Object.values(mydata)
+          const taskRef = ref(db, `userLists/${key}`);
+            set(taskRef, {
+              name: value[value.length-1].name,
+              id: key
+            })
+        }
+      })
+      .then(setInputValue(''))
+      // .then(e.target.blur())
+      .then(
+        () => {
+          if(data.length === 0){
+            window.location.reload()
+          }else{
+            e.target.blur()
+          }
+        }
+      )
+      .catch((error) => {
+        alert('There is a problem storing data in database, please try again - ' + error.message)
+      })
+  }
+
   useEffect(
     () => {
       getData()
-    },[data]
+    },[getData]
   )
 
 
@@ -78,7 +97,16 @@ export default function Layout() {
         </form>
         <div id='user-lists'>
             {data.map((item, index)=> {
-              return <Link key={index} id='user-list' to={`UserList/${item.name}?${item.id}`}>{item.name}</Link>
+              return (
+                <Link 
+                  key={index} 
+                  id='user-list' 
+                  to={`UserList/${item.name}/${item.id}`}
+                  // onClick={}
+                    >
+                    {item.name}
+                </Link>
+              )
             })}
         </div>
       </div>

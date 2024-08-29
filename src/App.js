@@ -31,12 +31,13 @@ function App() {
           element: <Priority />
         },
         {
-          path: 'UserList/:userlist',
+          path: 'UserList/:userlist/:userId',
           element: <UserLists />
         }
       ]
     }
   ]);
+
 
   return (
     <div>
