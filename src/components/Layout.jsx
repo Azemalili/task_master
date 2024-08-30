@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Outlet } from 'react-router'
 import { Link } from 'react-router-dom'
 import app from '../firebaseConfig'
 import { getDatabase, ref, set, push, get } from 'firebase/database'
-import UserLists from '../pages/UserLists'
 
 export default function Layout() {
 
   let [inputValue, setInputValue] = useState('')
   let [data, setData] = useState([])
-  let [myFireID, setMyFireID] = useState([])
   
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     const db = getDatabase(app);
     const dbRef = ref(db, 'userLists');
     const snapshot = await get(dbRef)
     if(snapshot.exists()){
       setData(Object.values(snapshot.val()))
     }
-  }
+  },[data])
 
 
   const savedata = (e) => {
@@ -46,13 +44,12 @@ export default function Layout() {
         }
       })
       .then(setInputValue(''))
-      // .then(e.target.blur())
       .then(
         () => {
           if(data.length === 0){
             window.location.reload()
           }else{
-            e.target.blur()
+            e.target.elements[0].blur()
           }
         }
       )
@@ -81,7 +78,7 @@ export default function Layout() {
           <Link to='/List/Myday' className='list'>Myday</Link>
           <Link to='/List/Priority' className='list'>Priority</Link>
         </div>
-        <hr style={{width: '80%', marginLeft: '10%'}} />
+        <hr style={{width: '84%', marginLeft: '8%'}} />
         <form 
           onSubmit={savedata}
         >
